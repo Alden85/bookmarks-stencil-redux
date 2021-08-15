@@ -49,7 +49,7 @@ export class AppHome {
         </div>
         <div>
           <input 
-            placeholder='Filter by tag'
+            placeholder='Filter by tag...'
             type="text" 
             value={this.searchTerm}
             onInput={(event) => this.handleFilter(event)}
