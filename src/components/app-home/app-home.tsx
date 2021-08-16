@@ -47,9 +47,10 @@ export class AppHome {
 
 
   render() {
-
+  
+  const searchTermToLowerCase = !this.searchTerm ? '':this.searchTerm.toLowerCase()
   const filteredData = this.bookmarks.filter(
-    (bookmark)=>bookmark.tags.toString().toLowerCase().includes(this.searchTerm)
+    (bookmark)=>bookmark.tags.toString().toLowerCase().includes(searchTermToLowerCase)
   )
   this.filteredTags = filteredData
 
@@ -58,32 +59,39 @@ export class AppHome {
     return(
       <div class='container'>
         <div class='bookmark-title'>
-          <h1>Bookmarks</h1>
+          Bookmarks
         </div>
-        <div>
+        
+        <div class='filter-by-tag'>
+          <div><h5>Search bookmarks</h5></div>
           <input 
             placeholder='Filter by tag...'
             type="text" 
             value={this.searchTerm}
             onInput={(event) => this.handleFilter(event)}
           />
-          {console.log(this.searchTerm)}
         </div>
         <div class='bookmark-table'>
         
                 <table>
                   <tr>
-                    <td>Bookmark Name</td>
-                    <td>Bookmark Link</td>
-                    <td>Bookmark Tags</td>
+                    <td><b>Bookmark Name</b></td>
+                    <td><b>Bookmark Link</b></td>
+                    <td><b>Tags</b></td>
                   </tr>
                   {dataToBeRendered.map(bookmark=>{
                     
                     return(
                       
                       <tr>
-                        <td>{bookmark.name}</td>
-                        <td>{bookmark.link}</td>
+                        <td>
+                          <a href={bookmark.link} target="_blank">{bookmark.name}
+                          </a>
+                        </td>
+                        <td>
+                          <a href={bookmark.link} target="_blank">{bookmark.link}
+                          </a>
+                        </td>
                         <td>{bookmark.tags.toString()}</td>
                         <td>
                           <form>
@@ -95,7 +103,7 @@ export class AppHome {
                       </tr>
                   
                     )
-                  })}
+                  }).reverse()}
                 </table>
               
         </div>

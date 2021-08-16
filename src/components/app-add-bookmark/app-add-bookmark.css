@@ -1,3 +1,22 @@
-:host {
-  display: block;
+input {
+  border-radius: 4px;
+  margin-top: 10px;
+  border: 1px solid #18191a;
+  padding: 20px;
+  width: 200px;
+  height: 8px;
+  outline: none !important;
+}
+
+.submit {
+  text-align: center;
+  padding-bottom: 45px;
+  padding-top: 20px;
+  width: 150px;
+  border-radius: 4px;
+  margin-top: 30px;
+  color: aliceblue;
+  font-size: 25px;
+  font-weight: bold;
+  background-color: #18191a;
 }

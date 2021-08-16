@@ -37,9 +37,9 @@ export class AppAddBookmark {
 
     return (
       <div>
-        <label>
-          <h1>Add Bookmark</h1>
-        </label>
+        <div>
+          <h2>Add New Bookmark</h2>
+        </div>
       <form onSubmit={postData(bookmark)}>
           <div>
             <input 
@@ -52,7 +52,7 @@ export class AppAddBookmark {
           </div>
           <div>
           <input 
-            placeholder='link' 
+            placeholder='https://www.example.com' 
             type="text" 
             value={this.link}
             onInput={(event) => this.handleLink(event)}
@@ -66,7 +66,9 @@ export class AppAddBookmark {
             onInput={(event) => this.handleTags(event)}
           />
           </div>
-          <input type="submit" value="Add" />
+          <div> 
+            <input class='submit' type="submit" value='Add'/>
+          </div>
         </form>
         </div>
     );
