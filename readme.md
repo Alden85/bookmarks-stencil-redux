@@ -4,7 +4,7 @@
 
 To start building, clone this repo:
 
-1. Open a terminal window and navigate to project directory.Navigate to `src/db`,run the json-server, use `npx` command if json-server is not installed globally. `This will start the database json-server.`
+1. Open a terminal window and navigate to project directory.Navigate to `src/db`,run the json-server, use `npx` command if json-server is not installed globally. This will start the database json-server.
 
 ```bash
 npx json-server --watch db.json
