@@ -28,6 +28,15 @@
         "css",
         "sql"
       ]
+    },
+    {
+      "id": "59a49c1d-b9eb-4f50-b400-ad81e9e29c73",
+      "name": "Moz://a",
+      "link": "https://developer.mozilla.org/en-US/",
+      "tags": [
+        "Docs",
+        " Tutorials"
+      ]
     }
   ]
 }
