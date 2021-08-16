@@ -9,8 +9,6 @@ import { loadData,deleteData } from '../../actions/data';
 
 export class AppHome {
   @State() bookmarks:any;
-  @State() filteredBookmarks:any;
-  @State() filteredTags:any;
   @State() loading: boolean;
   @State() error: any;
   @State() searchTerm: any;
@@ -43,18 +41,14 @@ export class AppHome {
     this.searchTerm = event.target.value;
   }
 
-  
-
-
   render() {
   
   const searchTermToLowerCase = !this.searchTerm ? '':this.searchTerm.toLowerCase()
   const filteredData = this.bookmarks.filter(
     (bookmark)=>bookmark.tags.toString().toLowerCase().includes(searchTermToLowerCase)
   )
-  this.filteredTags = filteredData
 
-  const dataToBeRendered = !this.searchTerm ? this.bookmarks : this.filteredTags
+  const dataToBeRendered = !this.searchTerm ? this.bookmarks : filteredData
   
     return(
       <div class='container'>

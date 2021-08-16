@@ -1,14 +1,6 @@
 {
   "bookmarks": [
     {
-      "id": "ea9a2f60-73a2-4a14-ae7a-128457873376",
-      "name": "w3schools",
-      "link": "https://www.w3schools.com",
-      "tags": [
-        "html"
-      ]
-    },
-    {
       "id": "9e1383ac-3344-49da-9f97-6bcb34c9e112",
       "name": "YouTube",
       "link": "https://youtube.com",
@@ -25,6 +17,16 @@
       "tags": [
         "soccer",
         "stats"
+      ]
+    },
+    {
+      "id": "8aa3e2e0-0296-4a38-a8c2-355260b68791",
+      "name": "W3Schools",
+      "link": "https://www.w3schools.com",
+      "tags": [
+        "html",
+        "css",
+        "sql"
       ]
     }
   ]
