@@ -8,10 +8,10 @@ describe('app-root', () => {
     expect(element).toHaveClass('hydrated');
   });
 
-  it('renders an ion-app', async () => {
+  it('renders app', async () => {
     const page = await newE2EPage({ url: '/' });
 
-    const element = await page.find('app-root > ion-app');
-    expect(element).toHaveClass('hydrated');
+    const element = await page.find('div');
+    expect(element).toHaveClass('root');
   });
 });

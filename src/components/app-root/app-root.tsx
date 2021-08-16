@@ -13,7 +13,7 @@ export class AppRoot {
 
   render() {
     return (
-      <div>
+      <div class='root'>
         <app-home/>
       </div>
     );
