@@ -1,0 +1,18 @@
+button {
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 5px;
+  margin-left: 20px;
+  width: 60px;
+  border-radius: 4px;
+  margin-top: 5px;
+  border: none;
+  color: aliceblue;
+  font-size: 14px;
+  background-color: #18191a;
+  cursor: pointer;
+}
+
+h4 {
+  margin-right: 15px;
+}

@@ -1,6 +1,7 @@
 import { Component, State, h } from '@stencil/core';
 import { store } from '@stencil/redux';
-import { loadData,deleteData} from '../../actions/data';
+import { loadData,deleteData,postData} from '../../actions/data';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   tag: 'app-home',
@@ -15,10 +16,16 @@ export class AppHome {
   @State() deletedId: any;
   @State() bmsFiltered:any;
 
+  //State to manage POST Form data
+  @State() name:string='';
+  @State() link:string = '';
+  @State() tags:string = '';
 
+
+  //Action Generator Functions
   loadData: (...args: any) => any;
   deleteData:(...args: any)=>any;
-  //postData:(...args: any)=>any;
+  postData: (...args:any)=>any;
 
   componentWillLoad() {
     store.mapStateToProps(this,state => {
@@ -37,32 +44,43 @@ export class AppHome {
     store.mapDispatchToProps(this, {
       loadData,
       deleteData,
-      //postData
+      postData
    
     });
     this.loadData();
-  }
-
-
-
-  handleDelete(id,bms){
-    this.deleteData(id,bms)
-    
   }
 
   handleFilter(event) {
     this.searchTerm = event.target.value;
   }
 
-  render() {
-  
-    const searchTermToLowerCase = !this.searchTerm ? '':this.searchTerm.toLowerCase()
+  handlePost(bookmark,bookmarksList){
+    this.postData(bookmark,bookmarksList)
+    this.name='',
+    this.link = '',
+    this.tags = ''
+  }
 
-    let filteredData = this.bookmarks.filter(
-      (bookmark)=>bookmark.tags.toString().toLowerCase().includes(searchTermToLowerCase)
-  )
-    
-  let dataToBeRendered = !this.searchTerm ? this.bookmarks : filteredData
+  handleName(event) {
+    this.name = event.target.value;
+  }
+
+  handleLink(event) {
+    this.link = event.target.value;
+  }
+
+  handleTags(event) {
+    this.tags = event.target.value;
+  }
+
+  render() {
+
+    let bookmark={
+    id:uuidv4(),
+    name:this.name,
+    link:this.link,
+    tags:this.tags.split(',')
+    }
   
     return(
       <div class='container'>
@@ -71,54 +89,60 @@ export class AppHome {
         </div>
         
         <div class='filter-by-tag'>
-          <div><h5>Search bookmarks</h5></div>
+          <div class='search'>
+            <h5>Search bookmarks</h5>
+          </div>
           <input 
+            class='inputField'
             placeholder='Filter by tag...'
             type="text" 
             value={this.searchTerm}
             onInput={(event) => this.handleFilter(event)}
           />
         </div>
-        <div class='bookmark-table'>
-        
-                <table>
-                  <tr>
-                    <td><b>Bookmark Name</b></td>
-                    <td><b>Bookmark Link</b></td>
-                    <td><b>Tags</b></td>
-                  </tr>
-                  {dataToBeRendered.map(bookmark=>{
-                    
-                    return(
-                      
-                      <tr>
-                        <td>
-                          <a href={bookmark.link} target="_blank">{bookmark.name}
-                          </a>
-                        </td>
-                        <td>
-                          <a href={bookmark.link} target="_blank">{bookmark.link}
-                          </a>
-                        </td>
-                        <td>{bookmark.tags.toString()}</td>
-                        <td>
-                         <button onClick={()=>
-                           this.handleDelete(bookmark.id,this.bookmarks)
-                         
-                        }>
-                            Delete
-                          </button>
-                       
-                        </td>
-                      </tr>
-                  
-                    )
-                  }).reverse()}
-                </table>
-              
+        <div class='bookmark-list'>
+          <app-display-bookmarks
+            deleteData={this.deleteData}
+            searchTerm={this.searchTerm}
+            bookmarks={this.bookmarks}
+          />
         </div>
         <div class='bookmark-add'>
-              <app-add-bookmark/>
+          <div><h2>Add Bookmark</h2></div>
+           <div>
+            <input 
+             class='inputField'
+            placeholder='name' 
+            type="text" 
+            value={this.name}
+            onInput={(event) => this.handleName(event)}
+            
+          />
+          </div>
+          <div>
+          <input 
+          class='inputField'
+            placeholder='https://www.example.com' 
+            type="text" 
+            value={this.link}
+            onInput={(event) => this.handleLink(event)}
+          />
+          </div>
+          <div>
+          <input 
+            class='inputField'
+            placeholder='tags' 
+            type="text" 
+            value={this.tags}
+            onInput={(event) => this.handleTags(event)}
+          />
+        
+          </div>
+         
+          <div>
+              <button class='submit' onClick={()=>this.handlePost(bookmark,this.bookmarks)}>Add</button>
+          
+            </div>
         </div>
             
       </div>

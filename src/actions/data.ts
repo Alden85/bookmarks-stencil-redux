@@ -57,26 +57,27 @@ export function deleteData(id:DataDelete,bms:any):ThunkAction<any,any,any, any> 
 }
     try {
       let response = await fetch(url,options);
-      console.log(response)
+      //console.log(response)
       handleErrors(response);
 
       let resId  = await response.url
       let resIdsub = resId.substr(32,68)
-      console.log(resIdsub)
+      //console.log(resIdsub)
 
       let bmsFiltered = bms.filter(bm=>bm.id !==id)
-
+      //triger deleteDataSuccess Action and send it payload to update state
       dispatch(deleteDataSuccess({resIdsub,bmsFiltered}));
       
+      //triger delete data failure action
     } catch (error) {
-      dispatch(loadDataFailure(error));
+      dispatch(deleteDataFailure(error));
     }
   };
 }
 
 
 //Posting bookmarks to db
-export function postData(bookmarkObj:DataPost) {
+export function postData(bookmarkObj:DataPost,bookmarksList:any) {
   return async dispatch => {
     const url = 'http://localhost:3000/bookmarks';
   
@@ -90,19 +91,21 @@ export function postData(bookmarkObj:DataPost) {
 }
     try {
       let response = await fetch(url,options);
-      console.log(response)
+      //console.log(response)
       handleErrors(response);
 
       let json:DataPost  = await response.json();
-      console.log(json)
+      //console.log(json)
+      let bookmarksAdded = [...bookmarksList,json]
+   
       // Trigger the POST_DATA_SUCCESS action
-      dispatch(postDataSuccess(json));
+      dispatch(postDataSuccess(bookmarksAdded));
       
       return json;
       
     } catch (error) {
-      // Trigger the LOAD_DATA_FAILURE action
-      dispatch(loadDataFailure(error));
+      // Trigger the POST_DATA_FAILURE action
+      dispatch(postDataFailure(error));
     }
   };
 }
@@ -162,6 +165,18 @@ export const postDataSuccess = data => async (dispatch, _getState) => {
   });
 };
 
+export interface PostDataFailureAction{
+  type:Actions.POST_DATA_FAILURE;
+  payload:any
+}
+
+export const postDataFailure = error => async (dispatch, _getState) => {
+  return dispatch({
+    type: Actions.POST_DATA_FAILURE,
+    payload: { error },
+  });
+};
+
 export interface DeleteDataSuccessAction{
   type:Actions.DELETE_DATA_SUCCESS;
   payload:any;
@@ -171,5 +186,17 @@ export const deleteDataSuccess = (data)=> async (dispatch, _getState) => {
   return dispatch({
     type: Actions.DELETE_DATA_SUCCESS,
     payload: { data },
+  });
+};
+
+export interface DeleteDataFailureAction{
+  type:Actions.DELETE_DATA_FAILURE;
+  payload:any
+}
+
+export const deleteDataFailure = error => async (dispatch, _getState) => {
+  return dispatch({
+    type: Actions.DELETE_DATA_FAILURE,
+    payload: { error },
   });
 };

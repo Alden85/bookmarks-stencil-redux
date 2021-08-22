@@ -6,7 +6,10 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface AppAddBookmark {
+    interface AppDisplayBookmarks {
+        "bookmarks": any;
+        "deleteData": (...args: any)=>any;
+        "searchTerm": any;
     }
     interface AppHome {
     }
@@ -14,11 +17,11 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLAppAddBookmarkElement extends Components.AppAddBookmark, HTMLStencilElement {
+    interface HTMLAppDisplayBookmarksElement extends Components.AppDisplayBookmarks, HTMLStencilElement {
     }
-    var HTMLAppAddBookmarkElement: {
-        prototype: HTMLAppAddBookmarkElement;
-        new (): HTMLAppAddBookmarkElement;
+    var HTMLAppDisplayBookmarksElement: {
+        prototype: HTMLAppDisplayBookmarksElement;
+        new (): HTMLAppDisplayBookmarksElement;
     };
     interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {
     }
@@ -33,20 +36,23 @@ declare global {
         new (): HTMLAppRootElement;
     };
     interface HTMLElementTagNameMap {
-        "app-add-bookmark": HTMLAppAddBookmarkElement;
+        "app-display-bookmarks": HTMLAppDisplayBookmarksElement;
         "app-home": HTMLAppHomeElement;
         "app-root": HTMLAppRootElement;
     }
 }
 declare namespace LocalJSX {
-    interface AppAddBookmark {
+    interface AppDisplayBookmarks {
+        "bookmarks"?: any;
+        "deleteData"?: (...args: any)=>any;
+        "searchTerm"?: any;
     }
     interface AppHome {
     }
     interface AppRoot {
     }
     interface IntrinsicElements {
-        "app-add-bookmark": AppAddBookmark;
+        "app-display-bookmarks": AppDisplayBookmarks;
         "app-home": AppHome;
         "app-root": AppRoot;
     }
@@ -55,7 +61,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "app-add-bookmark": LocalJSX.AppAddBookmark & JSXBase.HTMLAttributes<HTMLAppAddBookmarkElement>;
+            "app-display-bookmarks": LocalJSX.AppDisplayBookmarks & JSXBase.HTMLAttributes<HTMLAppDisplayBookmarksElement>;
             "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
         }

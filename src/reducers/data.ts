@@ -45,6 +45,14 @@ const dataReducer = (state: DataState = getInitialState(), action: ActionTypes) 
     case Actions.POST_DATA_SUCCESS: {
       return {
         ...state,
+        bookmarks:action.payload.data,
+        error: action.payload.error,
+      };
+    }
+
+      case Actions.POST_DATA_FAILURE: {
+      return {
+        ...state,
         error: action.payload.error,
       };
     }
@@ -54,6 +62,13 @@ const dataReducer = (state: DataState = getInitialState(), action: ActionTypes) 
         ...state,
         deletedId:action.payload.data,
         bookmarks:action.payload.data.bmsFiltered,
+        error: action.payload.error,
+      };
+    }
+
+      case Actions.DELETE_DATA_FAILURE: {
+      return {
+        ...state,
         error: action.payload.error,
       };
     }
