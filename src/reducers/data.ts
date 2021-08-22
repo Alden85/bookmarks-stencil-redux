@@ -4,6 +4,7 @@ interface DataState {
   bookmarks: any;
   loading: boolean;
   error: any;
+  deletedId: any;
 }
 
 const getInitialState = () => {
@@ -11,6 +12,7 @@ const getInitialState = () => {
     bookmarks: [],
     loading: false,
     error: null,
+    deletedId:null
   };
 };
 
@@ -50,6 +52,8 @@ const dataReducer = (state: DataState = getInitialState(), action: ActionTypes) 
     case Actions.DELETE_DATA_SUCCESS: {
       return {
         ...state,
+        deletedId:action.payload.data,
+        bookmarks:action.payload.data.bmsFiltered,
         error: action.payload.error,
       };
     }

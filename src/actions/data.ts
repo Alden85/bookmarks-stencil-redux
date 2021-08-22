@@ -1,5 +1,5 @@
 import { Actions } from '../actions/index';
-
+import {ThunkAction} from 'redux-thunk'
 
 interface DataResponse {
   bookmarks:any;
@@ -16,8 +16,11 @@ interface DataDelete{
   id:any;
 }
 
+//ACTION GENERATORS
+
 export function loadData() {
   return async dispatch => {
+
     // Trigger the LOAD_DATA_BEGIN action
     dispatch(loadDataBegin());
 
@@ -27,11 +30,12 @@ export function loadData() {
       handleErrors(response);
 
       let json: DataResponse = await response.json();
-      
-
+  
       // Trigger the LOAD_DATA_SUCCESS action
       dispatch(loadDataSuccess(json));
-      return json.bookmarks;
+
+      return json
+
     } catch (error) {
       // Trigger the LOAD_DATA_FAILURE action
       dispatch(loadDataFailure(error));
@@ -40,7 +44,7 @@ export function loadData() {
 }
 
 //deleting bookmark from db
-export function deleteData(id:DataDelete) {
+export function deleteData(id:DataDelete,bms:any):ThunkAction<any,any,any, any> {
   return async dispatch => {
     const url = `http://localhost:3000/bookmarks/${id}`;
   
@@ -53,22 +57,23 @@ export function deleteData(id:DataDelete) {
 }
     try {
       let response = await fetch(url,options);
-
+      console.log(response)
       handleErrors(response);
 
-      let json:DataDelete  = await response.json();
-      
-      // Trigger the POST_DATA_SUCCESS action
-      dispatch(deleteDataSuccess(json));
-      
-      return json;
+      let resId  = await response.url
+      let resIdsub = resId.substr(32,68)
+      console.log(resIdsub)
+
+      let bmsFiltered = bms.filter(bm=>bm.id !==id)
+
+      dispatch(deleteDataSuccess({resIdsub,bmsFiltered}));
       
     } catch (error) {
-      // Trigger the LOAD_DATA_FAILURE action
       dispatch(loadDataFailure(error));
     }
   };
 }
+
 
 //Posting bookmarks to db
 export function postData(bookmarkObj:DataPost) {
@@ -85,11 +90,11 @@ export function postData(bookmarkObj:DataPost) {
 }
     try {
       let response = await fetch(url,options);
-      
+      console.log(response)
       handleErrors(response);
 
       let json:DataPost  = await response.json();
-      
+      console.log(json)
       // Trigger the POST_DATA_SUCCESS action
       dispatch(postDataSuccess(json));
       
@@ -109,8 +114,8 @@ function handleErrors(response) {
   return response;
 }
 
-// ACTIONS
 
+// ACTIONS
 export interface LoadDataBeginAction {
   type: Actions.LOAD_DATA_BEGIN;
 }
@@ -162,7 +167,7 @@ export interface DeleteDataSuccessAction{
   payload:any;
 }
 
-export const deleteDataSuccess = data => async (dispatch, _getState) => {
+export const deleteDataSuccess = (data)=> async (dispatch, _getState) => {
   return dispatch({
     type: Actions.DELETE_DATA_SUCCESS,
     payload: { data },

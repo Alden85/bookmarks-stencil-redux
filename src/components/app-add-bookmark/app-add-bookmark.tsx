@@ -12,6 +12,7 @@ export class AppAddBookmark {
   @State() name:string='';
   @State() link:string = '';
   @State() tags:string = '';
+ 
 
   postData: (...args:any)=>any;
 
@@ -26,6 +27,15 @@ export class AppAddBookmark {
   handleTags(event) {
     this.tags = event.target.value;
   }
+
+  // handlePostdata(bmObj,event){
+  //   event.preventDefault();
+  //   this.postData(bmObj)
+  //   this.name = '';
+  //   this.link = '';
+  //   this.tags = '';
+  // }
+
   render() {
 
     let bookmark={

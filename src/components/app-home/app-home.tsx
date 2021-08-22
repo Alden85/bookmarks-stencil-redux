@@ -1,6 +1,6 @@
 import { Component, State, h } from '@stencil/core';
 import { store } from '@stencil/redux';
-import { loadData,deleteData } from '../../actions/data';
+import { loadData,deleteData} from '../../actions/data';
 
 @Component({
   tag: 'app-home',
@@ -12,28 +12,41 @@ export class AppHome {
   @State() loading: boolean;
   @State() error: any;
   @State() searchTerm: any;
+  @State() deletedId: any;
+  @State() bmsFiltered:any;
+
 
   loadData: (...args: any) => any;
   deleteData:(...args: any)=>any;
+  //postData:(...args: any)=>any;
 
   componentWillLoad() {
-    store.mapStateToProps(this, state => {
+    store.mapStateToProps(this,state => {
       const {
-        dataReducer: { bookmarks, loading, error },
+        dataReducer: { bookmarks, loading, error,deletedId,bmsFiltered},
       } = state;
       return {
         bookmarks,
         loading,
         error,
+        deletedId,
+        bmsFiltered
       };
     });
 
     store.mapDispatchToProps(this, {
       loadData,
       deleteData,
+      //postData
+   
     });
-
     this.loadData();
+  }
+
+
+
+  handleDelete(id,bms){
+    this.deleteData(id,bms)
     
   }
 
@@ -43,12 +56,13 @@ export class AppHome {
 
   render() {
   
-  const searchTermToLowerCase = !this.searchTerm ? '':this.searchTerm.toLowerCase()
-  const filteredData = this.bookmarks.filter(
-    (bookmark)=>bookmark.tags.toString().toLowerCase().includes(searchTermToLowerCase)
-  )
+    const searchTermToLowerCase = !this.searchTerm ? '':this.searchTerm.toLowerCase()
 
-  const dataToBeRendered = !this.searchTerm ? this.bookmarks : filteredData
+    let filteredData = this.bookmarks.filter(
+      (bookmark)=>bookmark.tags.toString().toLowerCase().includes(searchTermToLowerCase)
+  )
+    
+  let dataToBeRendered = !this.searchTerm ? this.bookmarks : filteredData
   
     return(
       <div class='container'>
@@ -88,11 +102,13 @@ export class AppHome {
                         </td>
                         <td>{bookmark.tags.toString()}</td>
                         <td>
-                          <form>
-                          <button onClick={deleteData(bookmark.id)}>
+                         <button onClick={()=>
+                           this.handleDelete(bookmark.id,this.bookmarks)
+                         
+                        }>
                             Delete
                           </button>
-                          </form>
+                       
                         </td>
                       </tr>
                   
