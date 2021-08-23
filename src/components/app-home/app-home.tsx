@@ -30,14 +30,14 @@ export class AppHome {
   componentWillLoad() {
     store.mapStateToProps(this,state => {
       const {
-        dataReducer: { bookmarks, loading, error,deletedId,bmsFiltered},
+        dataReducer: { bookmarks, loading, error,deletedId}
       } = state;
       return {
         bookmarks,
         loading,
         error,
         deletedId,
-        bmsFiltered
+     
       };
     });
 
