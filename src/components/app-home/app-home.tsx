@@ -1,6 +1,7 @@
 import { Component, State, h } from '@stencil/core';
 import { store } from '@stencil/redux';
 import { loadData,deleteData,postData} from '../../actions/data';
+import validator from 'validator';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -55,10 +56,18 @@ export class AppHome {
   }
 
   handlePost(bookmark,bookmarksList){
-    this.postData(bookmark,bookmarksList)
-    this.name='',
-    this.link = '',
-    this.tags = ''
+   if (validator.isURL(this.link)) {
+         this.postData(bookmark,bookmarksList)
+        this.name='',
+        this.link = '',
+        this.tags = ''
+   }else{
+     alert('Please provide valid URL')
+   }
+    
+    
+    
+    
   }
 
   handleName(event) {
@@ -67,6 +76,8 @@ export class AppHome {
 
   handleLink(event) {
     this.link = event.target.value;
+   
+    
   }
 
   handleTags(event) {
@@ -121,8 +132,10 @@ export class AppHome {
           </div>
           <div>
           <input 
-          class='inputField'
-            placeholder='https://www.example.com' 
+          
+          class={
+           (this.link === '' || validator.isURL(this.link))?'inputField' : 'red'}
+            placeholder='Valid URL (example.com)'
             type="text" 
             value={this.link}
             onInput={(event) => this.handleLink(event)}
